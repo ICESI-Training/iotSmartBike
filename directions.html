@@ -8,7 +8,7 @@
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
-        height: 100%;
+        height: 75%;
       }
       /* Optional: Makes the sample page fill the window. */
       html, body {
@@ -33,26 +33,19 @@
   </head>
   <body>
     <div id="floating-panel">
-    <b>Start: </b>
+    <b>Origen: </b>
     <select id="start">
-      <option value="lat:3.367029,lng:-76.52898">Estación universidades</option>
-      <option value="Universidad Icesi, Calle 18, Cali, Valle del Cauca, Colombia">Universidad Icesi</option>
-      <!-- <option value="joplin, mo">Joplin, MO</option>
-      <option value="oklahoma city, ok">Oklahoma City</option>
-      <option value="amarillo, tx">Amarillo</option>
-      <option value="gallup, nm">Gallup, NM</option>
-      <option value="flagstaff, az">Flagstaff, AZ</option>
-      <option value="winona, az">Winona</option>
-      <option value="kingman, az">Kingman</option>
-      <option value="barstow, ca">Barstow</option>
-      <option value="san bernardino, ca">San Bernardino</option>
-      <option value="los angeles, ca">Los Angeles</option> -->
+      <option value="3.367029,-76.52898">Estación universidades</option>
+      <option value="3.3418848,-76.5329253">Universidad Icesi</option>
+      <option value="3.361602,-76.528753">Unilibre</option>
+      <option value="3.34859,-76.5327597">Javeriana</option>
     </select>
-    <b>End: </b>
+    <b>Destino: </b>
     <select id="end">
       <option value="3.367029,-76.52898">Estación universidades</option>
       <option value="3.3418848,-76.5329253">Universidad Icesi</option>
-
+      <option value="3.361602,-76.528753">Unilibre</option>
+      <option value="3.34859,-76.5327597">Javeriana</option>
     </select>
     </div>
     <div id="map"></div>
@@ -74,9 +67,13 @@
       }
 
       function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+        lat_origin=getLat(document.getElementById('start').value);
+        lng_origin=getLng(document.getElementById('start').value);
+        lat_destination=getLat(document.getElementById('end').value);
+        lng_destination=getLng(document.getElementById('end').value);
         directionsService.route({
-          origin: new google.maps.LatLng(3.367029,-76.52898),
-          destination:new google.maps.LatLng(3.3418848,-76.5329253),
+          origin: new google.maps.LatLng(lat_origin,lng_origin),
+          destination:new google.maps.LatLng(lat_destination,lng_destination),
           travelMode: 'DRIVING'
         }, function(response, status) {
           if (status === 'OK') {
@@ -85,6 +82,15 @@
             window.alert('Directions request failed due to ' + status);
           }
         });
+        console.log();
+      }
+      function getLat(psCoord) {
+        var lat_res=psCoord.split(",")
+        return lat_res[0];
+      }
+      function getLng(psCoord) {
+        var lng_res=psCoord.split(",")
+        return lng_res[1];
       }
     </script>
     <script async defer
